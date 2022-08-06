@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "exel-table": {
+      "hosting": {
+        "exelUploader": [
+          "exel-table"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "exel-table"
+  }
+}

@@ -1,0 +1,72 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="header">
+      <h1 class="main-header">
+        Импорт exel-таблиц
+      </h1>
+    </div>
+    <div class="main">
+      <div class="inner">
+        <div class="col-md-6 material-textfield" *ngIf="name">
+          <input placeholder=" " type="text" #Search
+          (input)="onSearchChange(Search.value)">
+          <label>Поиск</label>
+        </div>
+        <label for="test">
+          <div class="input-block">
+            <p class="text" *ngIf="!name">Нажмите или перетащите что-нибудь сюда...</p>
+            <p class="text" *ngIf="name">{{name}}</p>
+          </div>
+          <input type="file" id="inputXLSX" multiple="false" (change)="onFileChanged($event)" accept=".xlsx"
+            (onmouseout)="onHover()">
+        </label>
+        <div class="button__block">
+         <button  mat-raised-button class="m-button" color="primary" (click)="openSettingsDialog()" *ngIf="name">Настройки отображения</button> 
+        </div>
+      </div>
+    </div>
+    <div class="table ">
+      <table>
+        <thead>
+          <tr>
+            <ng-container *ngFor="let header of headerData">
+              <td *ngIf="header.visible">{{header.title}}</td>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data ">
+            <ng-container  *ngFor="let item of row" >
+              <td *ngIf="item.visible"> {{item.title}}</td>
+            </ng-container >
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ngx-ui-loader
+  [fgsColor]="config.fgsColor"
+  [fgsPosition]="config.fgsPosition"
+  [fgsSize]="config.fgsSize"
+  [fgsType]="config.fgsType"
+  [bgsColor]="config.bgsColor"
+  [bgsOpacity]="config.bgsOpacity"
+  [bgsPosition]="config.bgsPosition"
+  [bgsSize]="config.bgsSize"
+  [bgsType]="config.bgsType"
+  [gap]="config.gap"
+  [logoPosition]="config.logoPosition"
+  [logoSize]="config.logoSize"
+  [logoUrl]="config.logoUrl"
+  [overlayColor]="config.overlayColor"
+  [pbColor]="config.pbColor"
+  [pbDirection]="config.pbDirection"
+  [pbThickness]="config.pbThickness"
+  [hasProgressBar]="config.hasProgressBar"
+  [text]="config.text"
+  [textColor]="config.textColor"
+  [textPosition]="config.textPosition"
+  [loaderId]="'main-dialog'"
+></ngx-ui-loader>

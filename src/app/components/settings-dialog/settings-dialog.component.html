@@ -1,0 +1,42 @@
+<div class="table">
+  <h1>Выберите элементы которые хотите спрятать</h1>
+  <table>
+    <thead>
+      <tr>
+        <td
+          *ngFor="let header of headersData; let i = index"
+          (click)="toggleSelection(i, header)"
+          [ngStyle]="{
+            'background-color': header.visible ? 'white' : 'yellow'
+          }"
+        >
+          {{ header.title }}
+        </td>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+<div class="button__block mr0-a flex-container">
+  <button mat-raised-button color="warn" (click)="closeAndAccept()">
+    Сохранить
+  </button>
+</div>
+<div class="" [formGroup]="form">
+  <!-- <mat-radio-group
+    aria-label="Выберите уровень пользователя"
+    formControlName="access"
+  >
+    <mat-radio-button value="0">Пользователь</mat-radio-button>
+    <mat-radio-button value="1">Редактор</mat-radio-button>
+  </mat-radio-group> -->
+  <h2>Настройки отображения</h2>
+  <div class="button-wrapper">
+    <button mat-raised-button color="primary" (click)="clickToUser()">
+      Пользователь
+    </button>
+    <button mat-raised-button color="primary" (click)="clickToAdmin()">
+      Редактор
+    </button>
+  </div>
+</div>

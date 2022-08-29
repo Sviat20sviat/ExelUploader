@@ -1,72 +1,128 @@
-<div class="wrapper">
-  <div class="container">
-    <div class="header">
-      <h1 class="main-header">
-        Импорт exel-таблиц
-      </h1>
-    </div>
-    <div class="main">
-      <div class="inner">
-        <div class="col-md-6 material-textfield" *ngIf="name">
-          <input placeholder=" " type="text" #Search
-          (input)="onSearchChange(Search.value)">
-          <label>Поиск</label>
-        </div>
-        <label for="test">
-          <div class="input-block">
-            <p class="text" *ngIf="!name">Нажмите или перетащите что-нибудь сюда...</p>
-            <p class="text" *ngIf="name">{{name}}</p>
+<div class="h-full" style="position:relative; height: 100%;">
+  <mat-sidenav-container style="position:relative; min-height: 100%;">
+    <mat-sidenav-content>
+      <div class="wrapper" #refElCont>
+        <div class="container">
+          <div class="header">
+            <h1 class="main-header">
+              Импорт exel-таблиц
+            </h1>
           </div>
-          <input type="file" id="inputXLSX" multiple="false" (change)="onFileChanged($event)" accept=".xlsx"
-            (onmouseout)="onHover()">
-        </label>
-        <div class="button__block">
-         <button  mat-raised-button class="m-button" color="primary" (click)="openSettingsDialog()" *ngIf="name">Настройки отображения</button> 
+          <div class="main">
+            <div class="inner">
+              <div class="col-md-6 material-textfield" *ngIf="name">
+                <input placeholder=" " type="text" #Search (input)="onSearchChange(Search.value)">
+                <label>Поиск</label>
+              </div>
+              <label for="test">
+                <div class="input-block">
+                  <p class="text" *ngIf="!name">Нажмите или перетащите что-нибудь сюда...</p>
+                  <p class="text" *ngIf="name">{{name}}</p>
+                </div>
+                <input type="file" id="inputXLSX" multiple="false" (change)="onFileChanged($event)" accept=".xlsx"
+                  (onmouseout)="onHover()">
+              </label>
+              <div class="button__block">
+                <button mat-raised-button class="m-button" color="primary" (click)="openSettingsDialog()"
+                  [disabled]="!name">Настройки отображения</button>
+              </div>
+            </div>
+          </div>
+          <div class="" style="height: calc(100vh - 336px); overflow-y: scroll; min-height: 100%;">
+            <div class="table ">
+              <table class="main-table">
+                <thead style=" position: sticky; top: 0; background: #c9c9c9;">
+                  <tr class="header">
+                    <ng-container *ngFor="let header of headerData">
+                      <td *ngIf="header.visible">{{header.title}}</td>
+                    </ng-container>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of data; let i = index " class="table-row-items" (click)="loadRightMenu(row, i)">
+                    <ng-container *ngFor="let item of row">
+                      <td *ngIf="item.visible">
+                        <span class="row-item" *ngIf="item?.title">{{item.title}}</span>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="s_collapsed">
+        <button class="btn-toggle-bar" (click)="hideRightPanel(refEl,refElCont)">
+          <img [ngStyle]="{'transform': collapsed ? 'rotate(90deg)' : 'rotate(-90deg)'}" class="t_bar" alt="arrow"
+            src="/assets/images/icons/play.png">
+        </button>
+      </div>
+    </mat-sidenav-content>
+    <mat-sidenav class="left-sidenav" [ngClass]="collapsed ? 'collapsed' : ''" mode="side"
+      [opened]="selectedToggleBtnGroup" [position]="'end'" disableClose [opened]="true">
+      <div #refEl class="resize-handle" (mousedown)='resizeRightSideNav($event, refEl, refElCont)'></div>
+      <div class="flex flex-col margin-left: 8px;">
+        <div class="flex justify-center text-xl">Подробная информация </div>
+        <div class="flex flex-row ml-4"  *ngFor="let header of headerData; let i = index">
+          <div class="flex flex-col ml-2 mb-1 header-info">
+            <div >
+              {{header.title}}: 
+            </div>
+          </div>
+          <div class="flex flex-col ml-2 mb-1" >
+            <div>
+              {{selectedRow[i]?.title}}
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-    <div class="table ">
-      <table>
-        <thead>
-          <tr>
-            <ng-container *ngFor="let header of headerData">
-              <td *ngIf="header.visible">{{header.title}}</td>
-            </ng-container>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of data ">
-            <ng-container  *ngFor="let item of row" >
-              <td *ngIf="item.visible"> {{item.title}}</td>
-            </ng-container >
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+
+    </mat-sidenav>
+  </mat-sidenav-container>
 </div>
 
-<ngx-ui-loader
-  [fgsColor]="config.fgsColor"
-  [fgsPosition]="config.fgsPosition"
-  [fgsSize]="config.fgsSize"
-  [fgsType]="config.fgsType"
-  [bgsColor]="config.bgsColor"
-  [bgsOpacity]="config.bgsOpacity"
-  [bgsPosition]="config.bgsPosition"
-  [bgsSize]="config.bgsSize"
-  [bgsType]="config.bgsType"
-  [gap]="config.gap"
-  [logoPosition]="config.logoPosition"
-  [logoSize]="config.logoSize"
-  [logoUrl]="config.logoUrl"
-  [overlayColor]="config.overlayColor"
-  [pbColor]="config.pbColor"
-  [pbDirection]="config.pbDirection"
-  [pbThickness]="config.pbThickness"
-  [hasProgressBar]="config.hasProgressBar"
-  [text]="config.text"
-  [textColor]="config.textColor"
-  [textPosition]="config.textPosition"
-  [loaderId]="'main-dialog'"
-></ngx-ui-loader>
+
+
+<ngx-ui-loader [fgsColor]="config.fgsColor" [fgsPosition]="config.fgsPosition" [fgsSize]="config.fgsSize"
+  [fgsType]="config.fgsType" [bgsColor]="config.bgsColor" [bgsOpacity]="config.bgsOpacity"
+  [bgsPosition]="config.bgsPosition" [bgsSize]="config.bgsSize" [bgsType]="config.bgsType" [gap]="config.gap"
+  [logoPosition]="config.logoPosition" [logoSize]="config.logoSize" [logoUrl]="config.logoUrl"
+  [overlayColor]="config.overlayColor" [pbColor]="config.pbColor" [pbDirection]="config.pbDirection"
+  [pbThickness]="config.pbThickness" [hasProgressBar]="config.hasProgressBar" [text]="config.text"
+  [textColor]="config.textColor" [textPosition]="config.textPosition" [loaderId]="'main-dialog'"></ngx-ui-loader>
+<!-- 
+
+      <section class="example-container mat-elevation-z8" tabindex="0">
+      <table mat-table [dataSource]="dataSource">
+    
+
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef> Weight </th>
+          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+    
+
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef> Symbol </th>
+          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </section>
+-->

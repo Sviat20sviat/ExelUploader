@@ -22,6 +22,17 @@ import {
   NgxUiLoaderRouterModule,
   NgxUiLoaderHttpModule
 } from 'ngx-ui-loader';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore/'; 
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore'
+import { AngularFireModule } from '@angular/fire/compat';
+
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
   // bgsOpacity: 0.5,
@@ -69,7 +80,14 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatProgressSpinnerModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderRouterModule,
-    NgxUiLoaderHttpModule
+    NgxUiLoaderHttpModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSlideToggleModule,
+    MatSidenavModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    // provideFirestore(() => getFirestore()),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
